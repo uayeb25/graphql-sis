@@ -2,13 +2,24 @@ const { getConnection, sql } = require('../DB/db');
 
 const classResolver = {
     Query:{
-        clases: async () => {
+        clases: async ( _ , args ) => {
             try{
                 const pool = await getConnection()
-                const result = await pool.request()
-                .query(`
-                    select * from exampleprep.Clases
-                `);
+                const request = pool.request();
+
+                let qry = "select * from exampleprep.Clases where 1=1"
+
+                if( args.nombre ){
+                    request.input( "clase_nombre" , sql.VarChar , `%${args.nombre}%` );
+                    qry += " and nombre like @clase_nombre "
+                }
+
+                if( args.id ){
+                    request.input( "clase_id" , sql.Int, args.id )
+                    qry += " and id = @clase_id "
+                }
+
+                const result= await request.query(qry)
                 return result.recordset;
             }catch(err){
                 console.error(err);

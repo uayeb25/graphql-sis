@@ -2,12 +2,19 @@ const { getConnection , sql } = require('../DB/db');
 
 const estudiantesResolvers = {
     Query: {
-        estudiantes: async () => {
+        estudiantes: async ( _ , args ) => {
             try{
                 const pool = await getConnection();
-                const result = await pool.request().query(`
-                    select * from exampleprep.Estudiantes
-                `);
+                const request = pool.request();
+
+                let qry = "select * from exampleprep.Estudiantes where 1=1"
+
+                if(args.id){
+                    request.input( 'estudiante_id' , sql.Int, args.id )
+                    qry += " and id=@estudiante_id"
+                }
+
+                const result= await request.query(qry)
                 return result.recordset;
             }catch(err){
                 console.error(err);

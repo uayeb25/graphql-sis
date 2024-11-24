@@ -27,10 +27,16 @@ const typeDefs = gql`
         nota: Float
     }
 
+    type ConteoEstudiantesClase{
+        clase: Clase
+        conteo: Int
+    }
+
     type Query{
-        estudiantes: [Estudiante]
-        clases: [Clase]
+        estudiantes( id: Int ): [Estudiante]
+        clases( id: Int, nombre: String ): [Clase]
         observaciones: [Observacion]
+        conteoEstudiantesClase: [ConteoEstudiantesClase]
     }
 `
 
