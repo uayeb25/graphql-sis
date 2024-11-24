@@ -1,6 +1,6 @@
-const { gpl } = require('apollo-server-express');
+const { gql } = require('apollo-server-express');
 
-const typeDefs = gpl`
+const typeDefs = gql`
     type Estudiante{
         id: ID!
         nombre: String!
@@ -28,11 +28,10 @@ const typeDefs = gpl`
     }
 
     type Query{
-        estudiante: [Estudiante]
+        estudiantes: [Estudiante]
         clases: [Clase]
         observaciones: [Observacion]
     }
-
 `
 
 module.exports = typeDefs;

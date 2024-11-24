@@ -2,24 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const morgan = require('morgan');
-
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
 
 const app = express();
-
-// Definir el esquema (typeDefs)
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-// Definir los resolvers
-const resolvers = {
-  Query: {
-    hello: () => '¡Hola, mundo!',
-  },
-};
-
 
 app.use(morgan('dev'));
 
